@@ -36,14 +36,15 @@ class Camera {
   public function bindControls(stage:pixi.Stage) {
     var start;
     var isDragging = false;
-    stage.mousedown = function (data) {
+
+    stage.touchstart = stage.mousedown = function (data) {
       isDragging = true;
       start = data.getLocalPosition(stage);
     };
-    stage.mouseup = function (data) {
+    stage.touchend = stage.mouseup = function (data) {
       isDragging = false;
     };
-    stage.mousemove = function (data: Dynamic) {
+    stage.touchmove = stage.mousemove = function (data: Dynamic) {
       if (isDragging) {
         var newPosition = data.getLocalPosition(stage);
         this.x -= (newPosition.x - start.x);

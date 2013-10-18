@@ -16,6 +16,7 @@ extern class DisplayObject {
   public var touchend:InteractionData->Void;
   public var touchendoutside:InteractionData->Void;
   public var touchstart:InteractionData->Void;
+  public var touchmove:InteractionData->Void;
 
   public var alpha:Float;
   public var buttonMode:Bool;
