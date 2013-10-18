@@ -3,7 +3,7 @@ package ;
 import pixi.Pixi;
 import keyboard.Keyboard;
 
-class Game {
+@:expose class Game {
 
   var viewportWidth:Int;
   var viewportHeight:Int;
@@ -14,10 +14,14 @@ class Game {
   var tileFactory:TileFactory;
   var cam:Camera;
   var lastTime:Float;
-  public function new() {
+  var canvas:js.html.Element;
 
-    viewportWidth = js.Browser.document.width;
-    viewportHeight = js.Browser.document.height;
+  public function new(canvasId: String) {
+
+    this.canvas = js.Browser.document.getElementById(canvasId);
+
+    viewportWidth = canvas.clientWidth;
+    viewportHeight = canvas.clientHeight;
 
     map = new LevelMap('assets/map.json');
     map.onLoad = run;
@@ -33,15 +37,14 @@ class Game {
 
   var tileWidth:Int = 64;
   var tileHeight:Int = 64;
+
   public function run(map: LevelMap) {
     
     
 
     tileFactory = new TileFactory(map, tileWidth, tileHeight, Math.ceil(viewportWidth / (tileWidth*2)), Math.ceil(viewportHeight / (tileHeight*2)));
 
-    renderer = Pixi.autoDetectRenderer(viewportWidth, viewportHeight);
-
-    js.Browser.document.body.appendChild(renderer.view);
+    renderer = Pixi.autoDetectRenderer(viewportWidth, viewportHeight, canvas);
     
     stage.addChild(map.view);
     cam.setLimits(map.width*tileWidth, map.height*tileHeight);
@@ -84,9 +87,7 @@ class Game {
     return true;
   }
 
-  public static function main () {
-    new Game();
-  }
+  public static function main () {}
 
 
 }

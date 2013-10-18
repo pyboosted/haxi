@@ -52,11 +52,12 @@ Camera.prototype = {
 	}
 	,__class__: Camera
 }
-var Game = function() {
+var Game = function(canvasId) {
 	this.tileHeight = 64;
 	this.tileWidth = 64;
-	this.viewportWidth = js.Browser.document.width;
-	this.viewportHeight = js.Browser.document.height;
+	this.canvas = js.Browser.document.getElementById(canvasId);
+	this.viewportWidth = this.canvas.clientWidth;
+	this.viewportHeight = this.canvas.clientHeight;
 	this.map = new LevelMap("assets/map.json");
 	this.map.onLoad = $bind(this,this.run);
 	this.map.load();
@@ -65,9 +66,9 @@ var Game = function() {
 	this.cam = new Camera(0,0,this.viewportWidth,this.viewportHeight);
 	this.cam.bindControls(this.stage);
 };
+$hxExpose(Game, "Game");
 Game.__name__ = true;
 Game.main = function() {
-	new Game();
 }
 Game.prototype = {
 	render: function(val) {
@@ -90,8 +91,7 @@ Game.prototype = {
 	}
 	,run: function(map) {
 		this.tileFactory = new TileFactory(map,this.tileWidth,this.tileHeight,Math.ceil(this.viewportWidth / (this.tileWidth * 2)),Math.ceil(this.viewportHeight / (this.tileHeight * 2)));
-		this.renderer = PIXI.autoDetectRenderer(this.viewportWidth,this.viewportHeight);
-		js.Browser.document.body.appendChild(this.renderer.view);
+		this.renderer = PIXI.autoDetectRenderer(this.viewportWidth,this.viewportHeight,this.canvas);
 		this.stage.addChild(map.view);
 		this.cam.setLimits(map.width * this.tileWidth,map.height * this.tileHeight);
 		js.Browser.window.requestAnimationFrame($bind(this,this.render));
@@ -398,4 +398,14 @@ var Enum = { };
 js.Browser.window = typeof window != "undefined" ? window : null;
 js.Browser.document = typeof window != "undefined" ? window.document : null;
 Game.main();
+function $hxExpose(src, path) {
+	var o = typeof window != "undefined" ? window : exports;
+	var parts = path.split(".");
+	for(var ii = 0; ii < parts.length-1; ++ii) {
+		var p = parts[ii];
+		if(typeof o[p] == "undefined") o[p] = {};
+		o = o[p];
+	}
+	o[parts[parts.length-1]] = src;
+}
 })();
