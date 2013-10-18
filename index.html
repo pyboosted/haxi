@@ -7,7 +7,9 @@
     <meta name="description" content="Haxi : Small game experiment using pixi.js + HaXe" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
+    <script src="//rawgithub.com/pyboosted/haxi/master/frontend/vendor/pixi.js"></script>
+    <script src="//rawgithub.com/pyboosted/haxi/master/frontend/vendor/keyboard.js"></script>
+    <script src="//rawgithub.com/pyboosted/haxi/master/frontend/app/game.js"></script>
     <title>Haxi</title>
   </head>
 
@@ -31,10 +33,17 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="haxi" class="anchor" href="#haxi"><span class="octicon octicon-link"></span></a>Haxi</h3>
-
-<p>This is a small game experiment using pixi.js + haxe. I'm going to use some cool stuff here :)</p>
+        <h3><a name="haxi" class="anchor" href="#haxi"><span class="octicon octicon-link"></span></a>Haxi</h3>
+        <p>This is a small game experiment using pixi.js + haxe. I'm going to use some cool stuff here :)</p>
+      </section>
+      <section id="example" class="inner">
+        <h3><a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h3>
+        <div>
+          <canvas id="gameCanvas"></canvas>
+        </div>
+        <script>
+          var game = new Game('gameCanvas');
+        </script>
       </section>
     </div>
 
